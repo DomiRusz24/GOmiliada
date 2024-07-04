@@ -71,8 +71,6 @@ func (g *GameState) calculateSum() uint16 {
 
 	length := len(g.current.Options)
 
-	println(length)
-
 	i := 0
 
 	for i < length {
