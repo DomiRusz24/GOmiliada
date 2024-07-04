@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  familiada:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - "./data/:/usr/src/app/data/"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.familiada.entrypoints=websecure
+      - traefik.http.routers.familiada.rule=Host(`familiada.pedal-szczygiel.xyz`)
+      - traefik.http.services.familiada.loadbalancer.server.port=8080
+      - "traefik.http.middlewares.familiada.basicauth.users=zhp:$$2y$$05$$XoxYD.66v0v3ta5C4VJ1WuyQ12EiCEvKDNp2kp1ps3ZJzPcM6c6D6"
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true

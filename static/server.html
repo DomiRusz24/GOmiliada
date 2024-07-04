@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server</title>
+    <link rel="stylesheet" href="/server.css">
+</head>
+<body>
+    <main>
+        <div onclick="resetClick()" id="lastclick"></div>
+        <p id="question"></p>
+        <p id="players"></p>
+        <table id="table">
+        </table>
+        <div id="buttons">
+            <button id="reset" onclick="reset()">Reset</button>
+            <button style="color: red;" id="strike" onclick="strike()">Strike</button>
+            <button style="color: red;" id="unstrike" onclick="unstrike()">UnStrike</button>
+            <button style="color: blue;" onclick="play(1)">Play blue</button>
+            <button style="color: red;" onclick="play(2)">Play red</button>
+            <button onclick="next()">Next</button>
+        </div>
+        <div id="points">
+            <p onclick="setPoints(1)" id="points-blue"></p>
+            <p onclick="setPoints(2)" id="points-red"></p>
+        </div>
+    </main>
+    <script src="/server.js"></script>
+</body>
+</html>

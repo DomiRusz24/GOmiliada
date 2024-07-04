@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Edit</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100vh;
+      }
+
+      #jsoneditor {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="jsoneditor"></div>
+
+    <script type="module">
+
+
+      const apiVersion = "v1";
+
+      function getAddress(path) {
+        return location.protocol + '//' + location.host + "/api/" + apiVersion + "/server/" + path;
+      }
+
+      function getScreenAddress(path) {
+        return location.protocol + '//' + location.host + "/api/" + apiVersion + "/screen/" + path;
+      }
+
+
+      import { JSONEditor } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor/standalone.js'
+
+      let content = {
+        text: undefined,
+        json: {}
+      }
+
+      const editor = new JSONEditor({
+        target: document.getElementById('jsoneditor'),
+        props: {
+          content,
+          onChange: (updatedContent, previousContent, { contentErrors, patchResult }) => {
+            // content is an object { json: JSONValue } | { text: string }
+            console.log('onChange', updatedContent.json)
+
+            fetch(getAddress("save"), {
+              method: "POST",
+              body: JSON.stringify(updatedContent.json)
+            })
+
+            content = updatedContent
+          }
+        }
+      })
+
+      fetch(getAddress("json")).then((data) => {
+        data.json().then((json) => {
+          editor.set({ json: json });
+        });
+      })
+
+
+      // use methods get, set, update, and onChange to get data in or out of the editor.
+      // Use updateProps to update properties.
+    </script>
+  </body>
+
+</html>
