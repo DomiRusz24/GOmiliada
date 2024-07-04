@@ -1,5 +1,5 @@
-screen = new WebSocket('ws://' + location.host + "/api/v1/screen/ws");
-button = new WebSocket('ws://' + location.host + "/api/v1/server/ws");
+screen = new WebSocket('wss://' + location.host + "/api/v1/screen/ws");
+button = new WebSocket('wss://' + location.host + "/api/v1/server/ws");
 
 /*
 type Button struct {
@@ -26,7 +26,7 @@ type Screen struct {
 }
 */
 
-const apiVersion = "v1";
+var apiVersion = "v1";
 
 
 function getAddress(path) {

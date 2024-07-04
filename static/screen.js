@@ -1,4 +1,4 @@
-webSocket = new WebSocket('ws://' + location.host + "/api/v1/screen/ws");
+webSocket = new WebSocket('wss://' + location.host + "/api/v1/screen/ws");
 
 /*
 type ScreenLine struct {
@@ -47,7 +47,7 @@ function getScreenAddress(path) {
 }
 
 
-const apiVersion = "v1";
+var apiVersion = "v1";
 
 fetch(getScreenAddress("state")).then((data) => {
     data.json().then((json) => {

@@ -1,4 +1,4 @@
-const apiVersion = "v1";
+var apiVersion = "v1";
 
 function getAddress(path) {
     return location.protocol + '//' + location.host + "/api/" + apiVersion + "/server/" + path;
