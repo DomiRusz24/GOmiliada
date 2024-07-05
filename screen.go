@@ -9,7 +9,10 @@ import (
 )
 
 func (g *GameState) buildScreen() Game {
+	return g.buildScreenWithEvent("")
+}
 
+func (g *GameState) buildScreenWithEvent(event string) Game {
 	screen := Game{}
 
 	var i int = 0
@@ -33,11 +36,17 @@ func (g *GameState) buildScreen() Game {
 
 	screen.Question = g.current.Question
 
+	screen.Event = event
+
 	return screen
 }
 
 func (g *GameState) sendScreenUpdate() {
-	screen := g.buildScreen()
+	g.sendScreenUpdateWithEvent("")
+}
+
+func (g *GameState) sendScreenUpdateWithEvent(event string) {
+	screen := g.buildScreenWithEvent(event)
 	g.lastFrame = screen
 	g.screenUpdateChannel.Submit(screen)
 }

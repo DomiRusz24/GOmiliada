@@ -37,6 +37,7 @@ type Game struct {
 	LeftPoint  int          `json:"left_points"`
 	RightPoint int          `json:"right_points"`
 	Question   string       `json:"question"`
+	Event      string       `json:"event"`
 }
 
 type Questions struct {

@@ -29,7 +29,7 @@ main {
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-    gap: 100px;
+    gap: 50px;
     height: 100%;
     width: 100%;
 }
@@ -68,3 +68,7 @@ p {
     display: flex;
     justify-content: space-around;
 }
+
+
+
+audio { display:none; }

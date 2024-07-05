@@ -62,7 +62,7 @@ func handleUncover(w http.ResponseWriter, r *http.Request, g *GameState) {
 
 	w.WriteHeader(http.StatusOK)
 
-	g.sendScreenUpdate()
+	g.sendScreenUpdateWithEvent("correct")
 
 }
 
@@ -166,7 +166,7 @@ func handleStrike(w http.ResponseWriter, r *http.Request, g *GameState) {
 
 	g.strikes = g.strikes + 1
 
-	g.sendScreenUpdate()
+	g.sendScreenUpdateWithEvent("strike")
 
 	w.WriteHeader(http.StatusOK)
 

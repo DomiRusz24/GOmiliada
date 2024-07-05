@@ -1,23 +1,3 @@
-webSocket = new WebSocket('wss://' + location.host + "/api/v1/screen/ws");
-
-/*
-type ScreenLine struct {
-	Text    string `json:"text"`
-	Points  uint16 `json:"points"`
-	Guessed bool   `json:"guessed"`
-	Shown   bool   `json:"shown"`
-}
-
-type Screen struct {
-    Lines      []ScreenLine `json:"lines"`
-    Sum        int          `json:"sum"`
-    Team       int          `json:"team"` // 0 - none, 1 - left, 2 - right
-    Strikes    int          `json:"strikes"`
-    LeftPoint  int          `json:"left_points"`
-    RightPoint int          `json:"right_points"`
-}
-*/
-
 function createTable(table, lines, sum, from, amount) {
     while (table.rows.length <= amount) {
         table.insertRow();
@@ -27,7 +7,7 @@ function createTable(table, lines, sum, from, amount) {
         let line = lines[i + from];
         let row = table.rows[i];
         if (line.shown) {
-            row.innerHTML += `<tr><td>${i + from + 1}</td><td>${line.text}</td><td>${line.points}</td></tr>`;
+            row.innerHTML += `<tr><td>${i + from + 1}</td><td class='text'>${line.text}</td><td>${line.points}</td></tr>`;
         } else {
             row.innerHTML += `<tr><td>${i + from + 1}</td><td>.......................</td><td>__</td></tr>`;
         }
@@ -42,27 +22,25 @@ function createTable(table, lines, sum, from, amount) {
     }
 }
 
-function getScreenAddress(path) {
-    return location.protocol + '//' + location.host + "/api/" + apiVersion + "/screen/" + path;
-}
-
-
-var apiVersion = "v1";
-
-fetch(getScreenAddress("state")).then((data) => {
-    data.json().then((json) => {
-        update(json);
-    });
-})
-
-
-function update(screen) {
+onScreenUpdate((screen) => {
     let table = document.getElementById("table");
     table.innerHTML = "";
 
     for (let i = 0; i < screen.lines.length; i+= 6) {
         createTable(table, screen.lines, screen.sum, i, 6);
     }
+
+    if (screen.event == "correct") {
+        document.getElementById("correct-sound").currentTime = 0;
+        document.getElementById("correct-sound").play();
+    }
+
+    if (screen.event == "strike") {
+        document.getElementById("wrong-sound").currentTime = 0;
+        document.getElementById("wrong-sound").play();
+    }
+    
+    prevSum = screen.sum;
 
     document.getElementById("left").classList = [];
     document.getElementById("right").classList = [];
@@ -81,6 +59,8 @@ function update(screen) {
 
     let strikes = screen.strikes;
 
+    prevErrors = strikes;
+
     if (strikes > 3) {
         for (n of document.getElementsByClassName("playing")) {
             n.innerHTML = "<div>X</div><div>X</div><div>X</div>"
@@ -96,9 +76,4 @@ function update(screen) {
             }
         }
     }
-
-}
-
-webSocket.onmessage = (event) => {
-    update(JSON.parse(event.data));
-};
+});
